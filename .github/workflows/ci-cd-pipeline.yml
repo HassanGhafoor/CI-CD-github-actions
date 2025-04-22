@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [master] 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker build -t my-react-app .
+
+      # Optional: Docker layer caching for faster builds
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
+      # Placeholder for AWS steps — Add later when AWS access is available
+      # - name: Set up AWS CLI
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-west-2  # Adjust as needed
+
+      # - name: Login to Amazon ECR
+      #   run: |
+      #     aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REGISTRY }}
+
+      # - name: Tag and Push Docker image to ECR
+      #   run: |
+      #     docker tag my-react-app:latest ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
+      #     docker push ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
