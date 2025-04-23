@@ -28,7 +28,7 @@ jobs:
                ${{ runner.os }}-buildx-
 
 
-      # Placeholder for AWS steps — Add later when AWS access is availables
+      # Placeholder for AWS steps — Add later when AWS access is available
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -44,3 +44,16 @@ jobs:
         run: |
           docker tag my-react-app:latest ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
           docker push ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
+
+
+      - name: Deploy to ECS
+        env:
+          AWS_REGION:    eu-north-1
+          CLUSTER_NAME:  my-ecs-cluster
+          SERVICE_NAME:  my-ecs-service
+        run: |
+          aws ecs update-service \
+            --cluster $CLUSTER_NAME \
+            --service $SERVICE_NAME \
+            --force-new-deployment \
+            --region $AWS_REGION
