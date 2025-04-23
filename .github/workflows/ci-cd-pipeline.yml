@@ -28,7 +28,7 @@ jobs:
                ${{ runner.os }}-buildx-
 
 
-      # Placeholder for AWS steps — Add later when AWS access is available
+      # Placeholder for AWS steps — Add later when AWS access is availables
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
