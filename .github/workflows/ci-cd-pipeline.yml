@@ -29,18 +29,18 @@ jobs:
 
 
       # Placeholder for AWS steps — Add later when AWS access is available
-      # - name: Set up AWS CLI
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-west-2  # Adjust as needed
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1  # Adjust as needed
 
-      # - name: Login to Amazon ECR
-      #   run: |
-      #     aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REGISTRY }}
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REGISTRY }}
 
-      # - name: Tag and Push Docker image to ECR
-      #   run: |
-      #     docker tag my-react-app:latest ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
-      #     docker push ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
+      - name: Tag and Push Docker image to ECR
+        run: |
+          docker tag my-react-app:latest ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
+          docker push ${{ secrets.AWS_ECR_REGISTRY }}/my-react-app:${{ github.sha }}
