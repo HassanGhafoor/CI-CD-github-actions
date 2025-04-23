@@ -50,7 +50,7 @@ jobs:
         env:
           AWS_REGION:    eu-north-1
           CLUSTER_NAME:  my-ecs-cluster
-          SERVICE_NAME:  my-ecs-service
+          SERVICE_NAME:  my-react-app-task-service-xgpiwhvh
         run: |
           aws ecs update-service \
             --cluster $CLUSTER_NAME \
